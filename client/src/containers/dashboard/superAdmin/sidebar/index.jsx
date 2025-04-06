@@ -49,31 +49,31 @@ import {
     },
   
     {
-      text: "Overview",
+      text: "Dummy Page",
       icon: <PointOfSaleOutlined />,
     },
     {
-      text: "Daily",
+      text: "Dummy Page",
       icon: <TodayOutlined />,
     },
     {
-      text: "Monthly",
+      text: "Dummy Page",
       icon: <CalendarMonthOutlined />,
     },
     {
-      text: "Breakdown",
+      text: "Dummy Page",
       icon: <PieChartOutlined />,
     },
     {
-      text: "Management",
+      text: "Dummy Page",
       icon: null,
     },
     {
-      text: "Admin",
+      text: "Dummy Page",
       icon: <AdminPanelSettingsOutlined />,
     },
     {
-      text: "Performance",
+      text: "Dummy Page",
       icon: <TrendingUpOutlined />,
     },
   ];

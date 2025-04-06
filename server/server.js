@@ -19,14 +19,20 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// CORS Configuration - Allow all origins & handle preflight requests
+app.use(cors({
+  origin: '*', // Accepts requests from any domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+// Explicitly handle preflight (OPTIONS) requests
+app.options('*', cors());
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes); 
-
-// Basic route for testing
-app.get('/', (req, res) => {
-  res.send('API is running');
-});
 
 // Start server
 app.listen(PORT, () => {

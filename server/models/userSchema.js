@@ -4,7 +4,7 @@ export const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     displayName: { type: String },
     photoURL: { type: String },
-    role: { type: String, enum: ['user', 'admin', 'reseller','agency','client'], default: 'user' },
+    role: { type: String, enum: ['Guest', 'Admin', 'Reseller','Agency','Client'], default: 'Guest' },
     createdAt: { type: Date, default: Date.now }
   });
   

@@ -7,7 +7,7 @@ const userService = {
   /**
    * Get all users from the database
    */
-   getUser: async ({ page, pageSize, sort, search }) => {
+   getUser: async ({ role, page, pageSize, sort, search }) => {
     // Generate sort object
     const generateSort = () => {
       const sortParsed = JSON.parse(sort);
@@ -17,17 +17,38 @@ const userService = {
     };
   
     const sortFormatted = sort ? generateSort() : {};
+
+
+      
+      // Role-based filter
+      let roleFilter = {};
+
+      if (role === "Reseller") {
+        roleFilter = { role: "Agency" };
+      } else if (role === "Agency") {
+        roleFilter = { role: "Client" };
+      } else if (role === "Client" || role === "Guest") {
+        // Client and Guest shouldn't see any users
+        return { users: [], total: 0 };
+      }
+      // Admin gets all users (no filter)
+
   
     // Build search query
     const searchQuery = search
-      ? {
-          $or: [
-            { name: { $regex: search, $options: "i" } },
-            { email: { $regex: search, $options: "i" } },
-            { phone_number: { $regex: search, $options: "i" } },
-          ],
-        }
-      : {};
+    ? {
+        $and: [
+          {
+            $or: [
+              { name: { $regex: search, $options: "i" } },
+              { email: { $regex: search, $options: "i" } },
+              { phone_number: { $regex: search, $options: "i" } },
+            ],
+          },
+          roleFilter,
+        ],
+      }
+    : roleFilter;
   
     // Fetch users from DB
     const users = await User.find(searchQuery)
@@ -35,8 +56,11 @@ const userService = {
       .sort(sortFormatted)
       .skip(page * pageSize)
       .limit(pageSize);
+
+      console.log("Users fetched from DB in service:", users, role);
   
     const total = await User.countDocuments(searchQuery);
+
   
     return { users, total };
   },

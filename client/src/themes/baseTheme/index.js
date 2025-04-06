@@ -45,7 +45,6 @@ export const tokensDark = {
   gradients: {
     primary: {
       default: [
-        "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 27%, rgba(38,62,155,1) 63%, rgba(38,62,154,1) 72%, rgba(24,64,170,1) 100%)",
         "linear-gradient(43deg, #2039ba 0%, #3531b8 46%, #60b6e9 100%)",
         "linear-gradient(to right, #000428, #004e92); ",
         "linear-gradient(to top, #09203f, #537895 100%);",

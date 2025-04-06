@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserQuery, useGetUserByIdQuery } from "../../../../../state/api";
@@ -57,6 +58,9 @@ const AdminCRUDDashboard = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [expandedRows, setExpandedRows] = useState({}); // Track expanded rows for mobile view
 
+  const userId = useSelector((state) => state.auth.user.uid);
+  
+
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
@@ -76,6 +80,7 @@ const AdminCRUDDashboard = () => {
   }, [searchInput]);
 
   const { data, isLoading } = useGetUserQuery({
+    userId,
     page: paginationModel.page,
     pageSize: paginationModel.pageSize,
     sort: JSON.stringify(sortModel[0] || {}),
@@ -155,7 +160,7 @@ const AdminCRUDDashboard = () => {
       flex: isMobile ? 0.5 : 0.3,
       hide: isMobile, // Hide on mobile to save space
     },
-    {
+    /*{
       field: "name",
       headerName: "User Name",
       flex: 1,
@@ -165,7 +170,7 @@ const AdminCRUDDashboard = () => {
       headerName: "Phone",
       flex: 1,
       hide: isMediumScreen, // Hide on medium screens
-    },
+    },*/
     {
       field: "email",
       headerName: "Email",
@@ -249,13 +254,13 @@ const AdminCRUDDashboard = () => {
                     <Typography variant="body2">{user.email}</Typography>
                   </Grid>
                   
-                  <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                     <Typography variant="body2" color="text.secondary">Phone:</Typography>
                   </Grid>
                   <Grid item xs={8}>
                     <Typography variant="body2">{user.phone_number}</Typography>
                   </Grid>
-                  
+                  */}
                   <Grid item xs={4}>
                     <Typography variant="body2" color="text.secondary">Payments:</Typography>
                   </Grid>

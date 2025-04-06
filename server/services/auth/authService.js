@@ -49,7 +49,7 @@ const authService = {
             email: decodedToken.email,
             displayName: decodedToken.name,
             photoURL: decodedToken.picture,
-            role: 'user' // Default role
+            role: 'Guest' // Default role
           });
         }
       

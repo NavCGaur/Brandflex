@@ -144,8 +144,8 @@ const Login = () => {
         case "Client":
           rolePath = "/client/dashboard";
           break;
-        case "user":
-          rolePath = "/guestuser/dashboard";
+        case "Guest":
+          rolePath = "/guest/dashboard";
           break;
     }
 
@@ -429,7 +429,7 @@ const Login = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-          Login to your account
+          Login to your BrandFlex account
         </Typography>
   
         {/* Social login buttons */}

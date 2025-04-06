@@ -35,10 +35,11 @@ export const authApi = createApi({
     
     
     getUser: build.query({
-      query: ({ page, pageSize, sort, search }) => ({
+      query: ({ userId, page, pageSize, sort, search }) => ({
         url: "users",
         method: "GET",
-        params: { page, pageSize, sort, search },
+        params: { userId, page, pageSize, sort, search },
+
       }),
       providesTags: ["User"],
     }),

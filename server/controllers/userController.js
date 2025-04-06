@@ -1,4 +1,10 @@
+import mongoose from 'mongoose';
+
 import userService from '../services/user/index.js';
+
+import { UserSchema } from '../models/userSchema.js'; 
+
+const User = mongoose.model('User', UserSchema);
 
 const userController = {
   /**
@@ -6,10 +12,24 @@ const userController = {
    */
   getUser: async (req, res) => {
     try {
-      const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+      const { userId, page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const requestingUser = await User.findOne({ uid: userId }).select("role");
       
+      if (!requestingUser) {
+        return res.status(404).json({ message: "Requesting user not found" });
+      }
+      
+      const role = requestingUser.role;
+      console.log("Role in controller of user:", role);
+
       // Call the service layer
       const { users, total } = await userService.getUser({
+        role,
         page: Number(page),
         pageSize: Number(pageSize),
         sort,

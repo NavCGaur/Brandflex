@@ -123,7 +123,7 @@ const AdminDashboard = () => {
             description="Since last month"
             icon={
               <PointOfSale
-                sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+                sx={{ color: theme.palette.secondary[300], fontSize: "26px" , }}
               />
             }
           />
