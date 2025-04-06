@@ -265,7 +265,7 @@ const UserDetailsModal = ({ open, onClose, userDetails, isLoading, theme }) => {
         PaperProps={{
           sx: {
             borderRadius: 2,
-            backg: theme.palette.background.alt,
+            bgcolor: theme.palette.background.alt,
             width:'90%',
             height:'90%',
             

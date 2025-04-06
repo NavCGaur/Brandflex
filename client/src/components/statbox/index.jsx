@@ -19,7 +19,7 @@ const StatBox = ({ title, value, increase, icon, description }) => {
       transition="transform 0.2s ease, box-shadow 0.2s ease"
       sx={{
         background:theme.palette.background.alt,
-
+        
         '&:hover': {
           transform: 'translateY(-2px)',
           boxShadow: `0 4px 16px ${theme.palette.mode === 'dark' ? '#00000055' : '#bbb'}`,

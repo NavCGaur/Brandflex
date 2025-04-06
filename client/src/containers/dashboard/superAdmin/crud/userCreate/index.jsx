@@ -127,7 +127,7 @@ const UserCreateModal = ({ open, onClose, theme }) => {
                 sx={{
                  
                   "& .MuiSelect-select": {
-                    background: formData.role
+                    backgroundColor: formData.role
                       ? theme.palette.select.background
                       : "inherit", // Apply color when value is selected
                   },
