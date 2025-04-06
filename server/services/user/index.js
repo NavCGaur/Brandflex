@@ -7,13 +7,40 @@ const userService = {
   /**
    * Get all users from the database
    */
-  getAllUsers: async () => {
-    try {
-      return await User.find();
-    } catch (error) {
-      throw new Error('Error fetching users: ' + error.message);
-    }
+   getUser: async ({ page, pageSize, sort, search }) => {
+    // Generate sort object
+    const generateSort = () => {
+      const sortParsed = JSON.parse(sort);
+      return {
+        [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1,
+      };
+    };
+  
+    const sortFormatted = sort ? generateSort() : {};
+  
+    // Build search query
+    const searchQuery = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+            { phone_number: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {};
+  
+    // Fetch users from DB
+    const users = await User.find(searchQuery)
+      .select("_id name email phone_number role createdAt services")
+      .sort(sortFormatted)
+      .skip(page * pageSize)
+      .limit(pageSize);
+  
+    const total = await User.countDocuments(searchQuery);
+  
+    return { users, total };
   },
+  
 
   /**
    * Get user by ID

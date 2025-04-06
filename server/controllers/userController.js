@@ -4,12 +4,30 @@ const userController = {
   /**
    * Get all users
    */
-  getAllUsers: async (req, res) => {
+  getUser: async (req, res) => {
     try {
-      const users = await userService.getAllUsers();
-      return res.status(200).json({ success: true, data: users, message: 'Users fetched successfully' });
+      const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+      
+      // Call the service layer
+      const { users, total } = await userService.getUser({
+        page: Number(page),
+        pageSize: Number(pageSize),
+        sort,
+        search: search.trim()
+      });
+  
+      if (!users.length) {
+        return res.status(200).json({ 
+          message: "No users found", 
+          users: [], 
+          total 
+        });
+      }
+  
+      res.status(200).json({ users, total });
     } catch (error) {
-      return res.status(500).json({ success: false, message: error.message });
+      console.error("Error fetching users:", error);
+      res.status(500).json({ message: error.message });
     }
   },
 

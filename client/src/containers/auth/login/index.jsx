@@ -144,8 +144,8 @@ const Login = () => {
         case "Client":
           rolePath = "/client/dashboard";
           break;
-        case "Guest":
-          rolePath = "/guest/dashboard";
+        case "user":
+          rolePath = "/guestuser/dashboard";
           break;
     }
 
@@ -264,7 +264,7 @@ const Login = () => {
 
       const user = result.user;
 
-     
+     console.log("User credential:", user);
       if (!user.emailVerified) {
         console.log("User email not verified. Logging out...");
 
