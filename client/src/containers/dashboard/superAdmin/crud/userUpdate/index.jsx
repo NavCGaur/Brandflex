@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { storage } from '../../../../../config/firebase';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 
 import {
-  Box,
+  Box,  
   Button,
   Dialog,
   DialogTitle,
@@ -122,7 +120,7 @@ const UserEditModal = ({ open, onClose, userDetails, isLoading, theme }) => {
         }}
       >
         <Typography variant="h5" component="span" fontWeight="bold" color={theme.palette.secondary[100]}>
-          Edit User Details
+          Update User Role
         </Typography>
       </DialogTitle>
 
@@ -147,9 +145,11 @@ const UserEditModal = ({ open, onClose, userDetails, isLoading, theme }) => {
                 inputRef={roleRef}
                 label="Role"
               >
+                <MenuItem value="Admin">Admin</MenuItem>
                 <MenuItem value="Reseller">Reseller</MenuItem>
                 <MenuItem value="Agency">Agency</MenuItem>
                 <MenuItem value="Client">Client</MenuItem>
+                <MenuItem value="Guest">Guest</MenuItem>
               </Select>
             </FormControl>
           </Stack>

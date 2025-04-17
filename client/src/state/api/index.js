@@ -77,8 +77,14 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
-
     
+      updateUserRole: build.mutation({
+        query: ({ email, parentId, role }) => ({
+          url: `/users/update-role`,
+          method: 'PATCH',
+          body: { email, parentId, role },
+        }),
+      }),
     
 
   }),
@@ -93,6 +99,7 @@ export const {
   useDeleteUserMutation,
   useGetAllUsersQuery,
   useGetUserByIdQuery,
+  useUpdateUserRoleMutation
   
 
 } = authApi;

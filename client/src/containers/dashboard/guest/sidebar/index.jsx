@@ -38,15 +38,16 @@ import {
       text: "Dashboard",
       icon: <HomeOutlined />,
     },
-    {
-      text: "Customer Master",
-      icon: null,
-    },
-  
-    {
-      text: "Customers",
-      icon: <Groups2Outlined />,
-    },
+      {
+         text: "Explore",
+         icon: null,
+       },
+     
+       {
+         text: "Features",
+         icon: <Groups2Outlined />,
+       },
+     
   
     {
       text: "Dummy Page",

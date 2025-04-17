@@ -132,6 +132,9 @@ const Login = () => {
       // Navigate based on user role
       let rolePath = "/";
       switch (user.role) {
+        case "Superadmin":
+          rolePath = "/superadmin/dashboard";
+          break;
         case "Admin":
           rolePath = "/admin/dashboard";
           break;
@@ -185,7 +188,7 @@ const Login = () => {
       console.log("User credential:", user);
 
 
-      if (!user.emailVerified) {
+    /* if (!user.emailVerified) {
         console.log("User email not verified. Logging out...");
 
         // 1. Sign out from Firebase
@@ -202,6 +205,7 @@ const Login = () => {
         return;
       }
 
+      */
 
       console.log("Firebase login successful:", userCredential);
       const idToken = await userCredential.user.getIdToken();
@@ -294,6 +298,7 @@ const Login = () => {
       await handleTokenVerification(idToken, result.user);
     } catch (error) {
       console.error("Google sign-in error:", error);
+      console.log("Error message:", error.message);
       setSnackbarMessage("Google sign-in failed. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);

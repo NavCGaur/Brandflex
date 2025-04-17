@@ -6,6 +6,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserQuery, useGetUserByIdQuery } from "../../../../../state/api";
 import DashboardHeader from "../../../../../components/dashboardHeader";
 import DataGridCustomToolbar from "../../../../../components/datagridcustomtoolbar";
+import UserAddModal from "../userAdd";
 import UserCreateModal from "../userCreate";
 import UserDetailsModal from "../userDetails";
 import UserUpdateModal from "../userUpdate";
@@ -35,7 +36,7 @@ import {
   Typography, 
   Pagination 
 } from "@mui/material";
-const AdminCRUDDashboard = () => {
+const SuperAdminCRUDDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 900px)");
@@ -60,6 +61,9 @@ const AdminCRUDDashboard = () => {
 
   const userId = useSelector((state) => state.auth.user.uid);
   
+  const currentUser = userId;
+  
+
 
   const [newUser, setNewUser] = useState({
     name: "",
@@ -86,6 +90,7 @@ const AdminCRUDDashboard = () => {
     sort: JSON.stringify(sortModel[0] || {}),
     search,
   });
+
 
   const formatDate = (dateString) => {
     const options = { 
@@ -323,7 +328,7 @@ const AdminCRUDDashboard = () => {
     <Box m={isMobile ? "1rem" : "1.5rem 2.5rem"}>
       <DashboardHeader 
         title="All Users" 
-        subtitle="Information of all Resellers, Agencies and Clients" 
+        subtitle="Information of all Admins, Resellers, Agencies, Clients and Guests" 
       />
 
       {/* Action buttons: stack vertically on mobile */}
@@ -349,7 +354,7 @@ const AdminCRUDDashboard = () => {
           startIcon={<AddIcon />}
           onClick={() => setCreateModalOpen(true)}
         >
-          {isMobile ? 'Create User' : 'Create User'}
+          {isMobile ? 'Add User' : 'Add User'}
         </Button>
         <Button
           variant="contained"
@@ -475,10 +480,10 @@ const AdminCRUDDashboard = () => {
         </Box>
       )}
 
-      <UserCreateModal 
+      <UserAddModal 
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        theme={theme}
+        currentUser={currentUser}
       />
 
       <UserDetailsModal
@@ -525,4 +530,4 @@ const AdminCRUDDashboard = () => {
   );
 };
 
-export default AdminCRUDDashboard;
+export default SuperAdminCRUDDashboard;

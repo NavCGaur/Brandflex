@@ -7,8 +7,26 @@ const userService = {
   /**
    * Get all users from the database
    */
-   getUser: async ({ role, page, pageSize, sort, search }) => {
-    // Generate sort object
+  getUser: async ({ role, parentMongoId, page, pageSize, sort, search }) => {
+    // Define allowed children per role
+    const roleHierarchy = {
+      Superadmin: ['Admin', 'Reseller', 'Agency', 'Client'],
+      Admin: ['Reseller', 'Agency', 'Client'],
+      Reseller: ['Agency', 'Client'],
+      Agency: ['Client'],
+      Client: [],
+      Guest: []
+    };
+  
+    // Prevent unauthorized access
+    if (!roleHierarchy[role] || roleHierarchy[role].length === 0) {
+      return { users: [], total: 0 };
+    }
+  
+    // Determine which roles this user can view
+    const allowedChildRoles = roleHierarchy[role];
+  
+    // Generate sorting object
     const generateSort = () => {
       const sortParsed = JSON.parse(sort);
       return {
@@ -17,27 +35,24 @@ const userService = {
     };
   
     const sortFormatted = sort ? generateSort() : {};
-
-
-      
-      // Role-based filter
-      let roleFilter = {};
-
-      if (role === "Reseller") {
-        roleFilter = { role: "Agency" };
-      } else if (role === "Agency") {
-        roleFilter = { role: "Client" };
-      } else if (role === "Client" || role === "Guest") {
-        // Client and Guest shouldn't see any users
-        return { users: [], total: 0 };
-      }
-      // Admin gets all users (no filter)
-
   
-    // Build search query
-    const searchQuery = search
-    ? {
+    // Build base query
+    // 👉 Base query
+    let query = {};
+    if (role !== "Superadmin") {
+      query = {
+        parentId: parentMongoId,
+        role: { $in: allowedChildRoles },
+      };
+    } else {
+      // Superadmin sees all users – optionally filtered by allowed roles (or not at all)
+      query = {}; // or { role: { $in: allowedChildRoles } } if needed
+    }
+    // Add search filters if present
+    if (search) {
+      query = {
         $and: [
+          query,
           {
             $or: [
               { name: { $regex: search, $options: "i" } },
@@ -45,26 +60,27 @@ const userService = {
               { phone_number: { $regex: search, $options: "i" } },
             ],
           },
-          roleFilter,
         ],
-      }
-    : roleFilter;
+      };
+    }
   
-    // Fetch users from DB
-    const users = await User.find(searchQuery)
+    const pageNumber = Math.max(1, page);
+    const pageSizeNumber = Math.max(1, pageSize);
+
+    const users = await User.find(query)
       .select("_id name email phone_number role createdAt services")
       .sort(sortFormatted)
-      .skip(page * pageSize)
-      .limit(pageSize);
+      .skip((pageNumber - 1) * pageSizeNumber)
+      .limit(pageSizeNumber);
 
-      console.log("Users fetched from DB in service:", users, role);
-  
-    const total = await User.countDocuments(searchQuery);
+    const total = await User.countDocuments(query);
 
+    console.log("Users in service:",users);
   
     return { users, total };
-  },
+  }
   
+  ,
 
   /**
    * Get user by ID
@@ -124,7 +140,36 @@ const userService = {
     } catch (error) {
       throw new Error('Error deleting user: ' + error.message);
     }
+  },
+  updateUserRoleService: async (email, parentId, role) => {
+    // Find the user by email
+    const user = await User.findOne({ email });
+    
+    // If no user found with the provided email
+    if (!user) {
+      throw new Error(`No user found with email: ${email}`);
+    }
+    
+    // Update the user's role and parentId
+    user.role = role;
+    user.parentId = parentId;
+    
+    // Save the updated user
+    await user.save();
+    console.log("User role updated:", user);
+    
+    return {
+      uid: user.uid,
+      email: user.email,
+      role: user.role,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    };
   }
+
+  
 };
+
+
 
 export default userService;

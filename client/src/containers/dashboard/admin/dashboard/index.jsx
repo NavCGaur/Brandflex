@@ -25,7 +25,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-const SuperAdminDashboard = () => {
+const AdminDashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -67,7 +67,7 @@ const SuperAdminDashboard = () => {
     <Box m={isMobile ? "1rem" : "1.5rem 2.5rem"}   
     >
       <FlexBetween flexDirection={isMobile ? "column" : "row"} gap={isMobile ? "1rem" : "0"}>
-        <Header title="SUPER ADMIN DASHBOARD" subtitle="Welcome to your dashboard" />
+        <Header title="ADMIN DASHBOARD" subtitle="Welcome to your dashboard" />
         <Box>
           <Button
             sx={{
@@ -206,6 +206,6 @@ const SuperAdminDashboard = () => {
   );
 };
 
-export default SuperAdminDashboard;
+export default AdminDashboard;
 
 

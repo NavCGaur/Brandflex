@@ -13,43 +13,36 @@ const userController = {
   getUser: async (req, res) => {
     try {
       const { userId, page = 1, pageSize = 20, sort = null, search = "" } = req.query;
-
+  
       if (!userId) {
         return res.status(400).json({ message: "User ID is required" });
       }
-
-      const requestingUser = await User.findOne({ uid: userId }).select("role");
-      
+  
+      const requestingUser = await User.findOne({ uid: userId }).select("_id role");
+  
       if (!requestingUser) {
         return res.status(404).json({ message: "Requesting user not found" });
       }
-      
+  
       const role = requestingUser.role;
-      console.log("Role in controller of user:", role);
-
-      // Call the service layer
+      const parentMongoId = requestingUser._id;
+  
       const { users, total } = await userService.getUser({
         role,
+        parentMongoId,
         page: Number(page),
         pageSize: Number(pageSize),
         sort,
-        search: search.trim()
+        search: search.trim(),
       });
-  
-      if (!users.length) {
-        return res.status(200).json({ 
-          message: "No users found", 
-          users: [], 
-          total 
-        });
-      }
   
       res.status(200).json({ users, total });
     } catch (error) {
       console.error("Error fetching users:", error);
       res.status(500).json({ message: error.message });
     }
-  },
+  }
+  ,
 
   /**
    * Get user by ID
@@ -84,6 +77,17 @@ const userController = {
       return res.status(200).json({ success: true, data: updatedUser, message: 'User updated successfully' });
     } catch (error) {
       return res.status(400).json({ success: false, message: error.message });
+    }
+  },
+
+  updateUserRole: async (req, res) => {
+    try {
+      console.log("Updating user role...");
+      const { email, parentId, role } = req.body;
+      const result = await userService.updateUserRoleService(email, parentId, role);
+      res.status(200).json({ message: 'User role updated', data: result });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
   },
 

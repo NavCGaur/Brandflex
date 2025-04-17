@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -38,5 +39,10 @@ app.use('/api/users', userRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+
+
+
 
 export default app;

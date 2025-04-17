@@ -147,9 +147,9 @@ const UserEditModal = ({ open, onClose, userDetails, isLoading, theme }) => {
                 inputRef={roleRef}
                 label="Role"
               >
-                <MenuItem value="Reseller">Reseller</MenuItem>
-                <MenuItem value="Agency">Agency</MenuItem>
+              
                 <MenuItem value="Client">Client</MenuItem>
+                <MenuItem value="Guest">Guest</MenuItem>
               </Select>
             </FormControl>
           </Stack>

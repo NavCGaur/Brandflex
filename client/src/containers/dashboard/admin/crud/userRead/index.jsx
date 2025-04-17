@@ -35,7 +35,7 @@ import {
   Typography, 
   Pagination 
 } from "@mui/material";
-const GuestCRUDDashboard = () => {
+const AdminCRUDDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 900px)");
@@ -60,6 +60,7 @@ const GuestCRUDDashboard = () => {
 
   const userId = useSelector((state) => state.auth.user.uid);
   
+
 
   const [newUser, setNewUser] = useState({
     name: "",
@@ -86,6 +87,8 @@ const GuestCRUDDashboard = () => {
     sort: JSON.stringify(sortModel[0] || {}),
     search,
   });
+
+  console.log("Raw API data:", data?.users);
 
   const formatDate = (dateString) => {
     const options = { 
@@ -322,8 +325,8 @@ const GuestCRUDDashboard = () => {
   return (
     <Box m={isMobile ? "1rem" : "1.5rem 2.5rem"}>
       <DashboardHeader 
-        title="Hello Guest" 
-        subtitle="Explore our features" 
+        title="All Users" 
+        subtitle="Information of all Resellers, Agencies and Clients" 
       />
 
       {/* Action buttons: stack vertically on mobile */}
@@ -525,4 +528,4 @@ const GuestCRUDDashboard = () => {
   );
 };
 
-export default GuestCRUDDashboard;
+export default AdminCRUDDashboard;

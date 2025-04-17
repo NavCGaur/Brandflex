@@ -31,7 +31,7 @@ import {
   import { useEffect, useState } from "react";
   import { useLocation, useNavigate } from "react-router-dom";
   import FlexBetween from "../../../../components/flexbetween";
-  import profileImage from "../../../../assets/images/agencyprofilepic.jpg";
+  import profileImage from "../../../../assets/images/agencyprofilepic.png";
 
   const navItems = [
     {

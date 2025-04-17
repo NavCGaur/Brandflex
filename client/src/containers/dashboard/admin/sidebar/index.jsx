@@ -31,7 +31,7 @@ import {
   import { useEffect, useState } from "react";
   import { useLocation, useNavigate } from "react-router-dom";
   import FlexBetween from "../../../../components/flexbetween";
-  import profileImage from "../../../../assets/images/clientprofilepic.png";
+  import profileImage from "../../../../assets/images/profilepic.jpg";
 
   const navItems = [
     {
@@ -39,12 +39,12 @@ import {
       icon: <HomeOutlined />,
     },
     {
-      text: "Explore",
+      text: "Customer Master",
       icon: null,
     },
   
     {
-      text: "Features",
+      text: "Customers",
       icon: <Groups2Outlined />,
     },
   

@@ -6,7 +6,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserQuery, useGetUserByIdQuery } from "../../../../../state/api";
 import DashboardHeader from "../../../../../components/dashboardHeader";
 import DataGridCustomToolbar from "../../../../../components/datagridcustomtoolbar";
-import UserCreateModal from "../userCreate";
+import UserAddModal from "../userAdd";
 import UserDetailsModal from "../userDetails";
 import UserUpdateModal from "../userUpdate";
 import UserDeleteModal from "../userDelete";
@@ -59,6 +59,7 @@ const AdminCRUDDashboard = () => {
   const [expandedRows, setExpandedRows] = useState({}); // Track expanded rows for mobile view
 
   const userId = useSelector((state) => state.auth.user.uid);
+  const currentUser = userId;
   
 
   const [newUser, setNewUser] = useState({
@@ -349,7 +350,7 @@ const AdminCRUDDashboard = () => {
           startIcon={<AddIcon />}
           onClick={() => setCreateModalOpen(true)}
         >
-          {isMobile ? 'Create User' : 'Create User'}
+          {isMobile ? 'Add Client' : 'Add Client'}
         </Button>
         <Button
           variant="contained"
@@ -475,10 +476,10 @@ const AdminCRUDDashboard = () => {
         </Box>
       )}
 
-      <UserCreateModal 
+      <UserAddModal 
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        theme={theme}
+        currentUser={currentUser}
       />
 
       <UserDetailsModal

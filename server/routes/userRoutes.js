@@ -9,6 +9,8 @@ router.get('/:id',userController.getUserById)
 router.post('/',userController.createUser);
 router.put('/:id',userController.editUser);
 router.delete('/:id',userController.deleteUser);
+router.patch('/update-role', userController.updateUserRole);
+
 
 
 
